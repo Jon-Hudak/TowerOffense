@@ -11,6 +11,8 @@ radius = 125.925
 
 [node name="Tower" type="StaticBody2D"]
 position = Vector2(296, 347)
+collision_layer = 8
+collision_mask = 8
 script = ExtResource("1_wqbvu")
 tower_resource = ExtResource("2_1m2fj")
 
@@ -27,6 +29,8 @@ position = Vector2(-0.5, 1.5)
 shape = SubResource("RectangleShape2D_n2anu")
 
 [node name="Area2D" type="Area2D" parent="." groups=["tower"]]
+collision_layer = 8
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_10i4i")

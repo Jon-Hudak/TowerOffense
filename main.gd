@@ -5,6 +5,8 @@ extends Node2D
 @onready var base = $Base/Marker2D
 @onready var main_nav_agent = $Marker2D/NavigationAgent2D
 @onready var spawn_marker = $Marker2D
+var building_tower
+var is_building: bool = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -14,19 +16,54 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
-	
-	if Input.is_action_just_pressed("left_click"):
-		place_tower(get_global_mouse_position())
+	if is_building:
+		#print($Marker2D/NavigationAgent2D.is_target_reachable())
+		#bake_nav()
+		
+		
+		print($NavigationRegion2D/TileMap.local_to_map(get_local_mouse_position()))
+		if Input.is_action_just_pressed("left_click") && tile_is_tower_base():
+			is_building=false
+			building_tower.build_tower()
+			
 
-func place_tower(tower_position: Vector2):
-	var existing_towers = get_tree().get_nodes_in_group("tower")
-	for tower in existing_towers:
-		if tower.global_position.distance_to(tower_position)<75 :
-			return
-	var new_tower = tower_scene.instantiate()
-	new_tower.global_position = tower_position
-	new_tower.tower_resource = selected_tower
-	$NavigationRegion2D.add_child(new_tower)
+#func place_tower(tower_position: Vector2):
+	#var existing_towers = get_tree().get_nodes_in_group("tower")
+	#for tower in existing_towers:
+		#if tower.global_position.distance_to(tower_position)<75 :
+			#return
+	#var new_tower = tower_scene.instantiate()
+	#new_tower.global_position = tower_position
+	#new_tower.tower_resource = selected_tower
+	#new_tower.connect("tower_built", on_tower_built)
+	#$NavigationRegion2D.add_child(new_tower)
+	#bake_nav()
+	#
+
+
+
+func _on_turret_button_pressed():
+	#var existing_towers = get_tree().get_nodes_in_group("tower")
+	#for tower in existing_towers:
+		#if tower.global_position.distance_to(tower_position)<75 :
+			#return
+	is_building=true
+	building_tower = tower_scene.instantiate()
+	building_tower.global_position = get_global_mouse_position()
+	building_tower.tower_resource = selected_tower
+	$NavigationRegion2D.add_child(building_tower)
+	bake_nav()
+	
+func bake_nav():
 	$NavigationRegion2D.bake_navigation_polygon()
 	
-
+func on_tower_built():
+	is_building=false
+	
+func tile_is_tower_base():
+	var mouse_pos = get_global_mouse_position()
+	var tile_pos = $NavigationRegion2D/TileMap.local_to_map(mouse_pos)
+	
+	var tile_data = $NavigationRegion2D/TileMap.get_cell_tile_data(0, tile_pos)
+	if tile_data:
+		return tile_data.get_custom_data("tower_base")  
