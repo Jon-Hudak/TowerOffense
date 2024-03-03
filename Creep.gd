@@ -4,11 +4,16 @@ extends CharacterBody2D
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D 
 @export var speed: float = 300
+@export var max_health: int = 100
+@export var attack_rate: float = 1.0
+@export var damage: int = 20
 
 
 
 func _ready():
 	make_path()
+	$Health.set_health(max_health)
+	print($Health.health)
 	
 func _physics_process(_delta) ->void:
 	$RayCast2D.target_position = to_local(base.global_position)
@@ -36,3 +41,7 @@ func _on_timer_timeout():
 	
 func tower_shot(effect):
 	pass
+
+
+func _on_hurtbox_hit_by_attack(attack_info):
+	$Health.change_health(attack_info.damage)

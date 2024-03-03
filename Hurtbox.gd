@@ -2,12 +2,13 @@ extends Component
 @export var health_component: Component
 @export var status_receiver: Component
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+signal hit_by_attack
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+	
+
+func _on_body_entered(body):
+	hit_by_attack.emit({"damage":-100, "speed":300})
+
+func on_hit(damage):
+	health_component.change_health(damage)

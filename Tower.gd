@@ -13,6 +13,6 @@ func _process(delta):
 
 
 func _on_area_2d_body_entered(body):
-	if body.has_method("tower_shot"):
-		#body.tower_shot()
-		pass
+	if body.has_node("Hurtbox"):
+		body.get_node("Hurtbox").on_hit(100)
+		print("working")

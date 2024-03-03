@@ -1,11 +1,18 @@
 extends Component
-@export var max_health: int = 100
-
+var max_health: int = 100
+var health: int 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	health = max_health
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func change_health(health_diff):
+	health-=health_diff #negative numbers heal
+	if health>max_health:
+		health=max_health
+	print(health)
+	
+	
+func set_health(new_health):
+	health = new_health if new_health<=max_health else max_health
+	
