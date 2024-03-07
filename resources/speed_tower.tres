@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="Tower" load_steps=2 format=3 uid="uid://cjqjokx25hqtb"]
 
-[ext_resource type="Script" path="res://tower_resource.gd" id="1_c5rkh"]
+[ext_resource type="Script" path="res://resources/tower_resource.gd" id="1_c5rkh"]
 
 [resource]
 script = ExtResource("1_c5rkh")
@@ -8,4 +8,10 @@ fire_rate = 1.0
 range = 300
 atk_up = 0.0
 def_up = 0.0
-speed_up = 0
+speed_up = 400
+stats = {
+"atk": 10,
+"def": 1,
+"speed": 100
+}
+damage = 0

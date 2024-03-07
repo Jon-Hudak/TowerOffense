@@ -10,7 +10,7 @@ func change_health(health_diff):
 	health-=health_diff #negative numbers heal
 	if health>max_health:
 		health=max_health
-	print(health)
+	
 	
 	
 func set_health(new_health):
