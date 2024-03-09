@@ -88,3 +88,12 @@ func tile_is_tower_base():
 	var tile_data = $NavigationRegion2D/TileMap.get_cell_tile_data(0, tile_pos)
 	if tile_data:
 		return tile_data.get_custom_data("tower_base")  
+
+
+func _on_tower_projectile_shot(projectile):
+	print(projectile)
+	add_child(projectile)
+
+
+func _on_creep_spawner_creep_spawning(creep):
+	add_child(creep)

@@ -12,7 +12,8 @@ signal hit_by_attack
 	#if health_component:
 		#health_component.change_health()
 
-func on_hit(data):
-	health_component.change_health(data.damage)
-	status_receiver.add_statuses(data.status)
+func on_hit(damage, statuses):
+	health_component.change_health(damage)
+	if statuses.size()>0:
+		status_receiver.add_statuses(statuses)
 	
