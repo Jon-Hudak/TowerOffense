@@ -163,11 +163,7 @@ shape = SubResource("RectangleShape2D_aba5n")
 one_shot = true
 
 [node name="PopupMenu" type="MenuButton" parent="CreepSpawner"]
-offset_left = -30.0
-offset_top = 82.0
-offset_right = -22.0
-offset_bottom = 90.0
-text = "fdgh"
+text = "Open Menu"
 item_count = 1
 popup/item_0/text = "Upgrade"
 popup/item_0/id = 0
@@ -242,6 +238,5 @@ text = "0"
 [connection signal="input_event" from="CreepSpawner" to="CreepSpawner" method="_on_input_event"]
 [connection signal="timeout" from="CreepSpawner/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="CreepSpawner/SpawnTimer" to="CreepSpawner" method="_on_spawn_timer_timeout"]
-[connection signal="pressed" from="CreepSpawner/PopupMenu" to="CreepSpawner" method="_on_popup_menu_pressed"]
 [connection signal="pressed" from="CreepSpawner/PopupMenu/UpgradeButton" to="CreepSpawner" method="_on_upgrade_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/TurretButton" to="." method="_on_turret_button_pressed"]

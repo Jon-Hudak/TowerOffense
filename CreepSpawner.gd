@@ -12,13 +12,13 @@ signal creep_spawning
 
 func _ready():
 	spawn_timer.start(get_spawn_rate())
-	popup_menu.connect("id_pressed", on_id_pressed)
+	popup_menu.get_popup().connect("index_pressed", on_id_pressed)
+	popup_menu.get_popup().hide_on_item_selection = false
 
 	
-	
 func _process(delta):
-	
 	pass
+		
 	
 
 func _on_spawn_timer_timeout():
@@ -36,14 +36,16 @@ func get_spawn_rate():
 	
 
 
-func _on_upgrade_button_pressed():
+func upgrade_spawner():
 	level+=1
 
 
 
-func _on_input_event(viewport, event, shape_idx):
-	if event.button_mask == 1:
-		menu_panel.set_visible(true)
+#func _on_input_event(viewport, event, shape_idx):
+	#if event.button_mask == 1:
+		#menu_panel.set_visible(true)
 
 func on_id_pressed(id):
-	print(id)
+	if id == 0: #0 is upgrade button
+		
+		upgrade_spawner()
