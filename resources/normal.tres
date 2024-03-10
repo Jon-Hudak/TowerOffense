@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CreepResource" load_steps=3 format=3 uid="uid://dl7i8ennjnley"]
+
+[ext_resource type="Script" path="res://creep_resource.gd" id="1_nktcn"]
+[ext_resource type="Texture2D" uid="uid://b3myts0snbjqj" path="res://icon.svg" id="2_knfn0"]
+
+[resource]
+script = ExtResource("1_nktcn")
+speed = 300.0
+max_health = 100
+attack_rate = 1.0
+damage = 20
+spawn_rate = 5.0
+sprite = ExtResource("2_knfn0")

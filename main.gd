@@ -7,6 +7,7 @@ extends Node2D
 @onready var main_nav_agent = $Marker2D/NavigationAgent2D
 @onready var spawn_marker = $Marker2D
 @onready var tile_map = $NavigationRegion2D/TileMap
+@onready var panel_cont = $CreepSpawner/PanelCont
 
 var building_tower
 var can_build_here: bool = false
@@ -18,6 +19,11 @@ func _ready():
 	main_nav_agent.target_position = base.global_position
 	#$Creep.target=$NavigationRegion2D/TileMap.local_to_map($Base.global_position)
 	$Creep.target=base.global_position
+	var spawners = get_tree().get_nodes_in_group("spawner")
+	
+	for spawner in spawners:
+		print(spawner)
+		spawner.connect("creep_spawning", _on_creep_spawner_creep_spawning)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -91,9 +97,9 @@ func tile_is_tower_base():
 
 
 func _on_tower_projectile_shot(projectile):
-	print(projectile)
 	add_child(projectile)
 
 
 func _on_creep_spawner_creep_spawning(creep):
+	print("hi")
 	add_child(creep)

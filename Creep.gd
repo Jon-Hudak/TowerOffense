@@ -4,11 +4,13 @@ extends CharacterBody2D
 @onready var base= $"../Base/Marker2D"
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D 
+@export var resource: CreepResource
 @export var speed: float = 300
 @export var max_health: int = 100
 @export var attack_rate: float = 1.0
 @export var damage: int = 20
 @export var target: Vector2
+@export var level: int = 1
 
 @onready var movement = $Movement
 @onready var hurtbox = $Hurtbox
@@ -22,7 +24,7 @@ extends CharacterBody2D
 
 func _ready():
 	target=base.global_position
-
+	$Icon2.texture=resource.sprite
 	make_path()
 	
 	initialize_stats()
@@ -52,8 +54,8 @@ func tower_shot(effect):
 	pass
 
 func initialize_stats():
-	health.set_health(max_health)
-	movement.speed=speed
+	health.initialize_health(resource.max_health + (20*level))
+	movement.speed=resource.speed
 	movement.set_modified_speed()
 
 
@@ -64,3 +66,7 @@ func _on_status_receiver_status_received(status):
 			movement.set_modified_speed()
 			
 			
+
+
+func _on_health_health_depleated():
+	queue_free()

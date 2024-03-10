@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://bo30baru3bqpk"]
+[gd_scene load_steps=12 format=3 uid="uid://bo30baru3bqpk"]
 
 [ext_resource type="Script" path="res://Creep.gd" id="1_cwhiu"]
+[ext_resource type="Resource" uid="uid://vxe22b7qj147" path="res://resources/speedy.tres" id="2_dymu4"]
 [ext_resource type="Texture2D" uid="uid://b3myts0snbjqj" path="res://icon.svg" id="2_jsxrp"]
 [ext_resource type="Script" path="res://Movement.gd" id="3_scymk"]
 [ext_resource type="Script" path="res://Hurtbox.gd" id="4_8behx"]
@@ -9,8 +10,8 @@
 [ext_resource type="Script" path="res://Health.gd" id="7_4ec1e"]
 [ext_resource type="Script" path="res://StatusReceiver.gd" id="8_cnff2"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nhq3b"]
-size = Vector2(40.3636, 43.4547)
+[sub_resource type="CircleShape2D" id="CircleShape2D_u844f"]
+radius = 29.6149
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l7foc"]
 size = Vector2(57.5758, 57.5757)
@@ -19,10 +20,11 @@ size = Vector2(57.5758, 57.5757)
 position = Vector2(1117, 647)
 scale = Vector2(0.385, 0.385)
 collision_layer = 2
-collision_mask = 2
+collision_mask = 3
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_cwhiu")
+resource = ExtResource("2_dymu4")
 
 [node name="Icon2" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 1, 1)
@@ -36,6 +38,7 @@ target_desired_distance = 33.6
 navigation_layers = 3
 path_postprocessing = 1
 avoidance_enabled = true
+radius = 32.65
 avoidance_layers = 3
 avoidance_mask = 3
 debug_enabled = true
@@ -45,9 +48,8 @@ wait_time = 0.5
 autostart = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1.09673e-05, 2.02656e-05)
 rotation = -0.785398
-shape = SubResource("RectangleShape2D_nhq3b")
+shape = SubResource("CircleShape2D_u844f")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 
@@ -77,4 +79,5 @@ script = ExtResource("8_cnff2")
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="body_entered" from="Hurtbox" to="Hurtbox" method="_on_body_entered"]
 [connection signal="hit_by_attack" from="Hurtbox" to="." method="_on_hurtbox_hit_by_attack"]
+[connection signal="health_depleated" from="Health" to="." method="_on_health_health_depleated"]
 [connection signal="status_received" from="StatusReceiver" to="." method="_on_status_receiver_status_received"]

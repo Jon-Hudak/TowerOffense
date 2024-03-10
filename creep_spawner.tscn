@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://bfh71wnfmnc6e"]
+
+[ext_resource type="Script" path="res://CreepSpawner.gd" id="1_icxle"]
+[ext_resource type="Texture2D" uid="uid://b3myts0snbjqj" path="res://icon.svg" id="2_k8pfo"]
+[ext_resource type="Resource" uid="uid://vxe22b7qj147" path="res://resources/speedy.tres" id="2_yexk4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aba5n"]
+size = Vector2(126, 127)
+
+[node name="CreepSpawner" type="StaticBody2D" groups=["spawner"]]
+position = Vector2(926, 401)
+collision_layer = 128
+input_pickable = true
+script = ExtResource("1_icxle")
+resource = ExtResource("2_yexk4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0, 1, 0, 1)
+texture = ExtResource("2_k8pfo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0.5)
+shape = SubResource("RectangleShape2D_aba5n")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="PanelCont" type="PanelContainer" parent="."]
+visible = false
+offset_left = -36.0
+offset_top = 73.0
+offset_right = 39.0
+offset_bottom = 104.0
+
+[node name="UpgradeButton" type="Button" parent="PanelCont"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Upgrade"
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="gui_input" from="PanelCont" to="." method="_on_panel_cont_gui_input"]
+[connection signal="pressed" from="PanelCont/UpgradeButton" to="." method="_on_upgrade_button_pressed"]

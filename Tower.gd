@@ -10,8 +10,8 @@ const projectile: PackedScene = preload("res://projectile.tscn")
 
 
 @export var fire_rate: float = 0.5
-@export var damage: int = 100
-@export var statuses: Array[Dictionary] = [{"name":"speed","amount":100}]
+@export var damage: int = 50
+@export var statuses: Array[Dictionary] = [{"name":"speed","amount":-50}]
 
 signal tower_built
 signal projectile_shot
@@ -26,8 +26,9 @@ func _process(delta):
 	#if is_preview:
 		#global_position=get_global_mouse_position()	
 		#
-	if $Area2D.has_overlapping_bodies():
+	if $Area2D.get_overlapping_bodies().size()>0:
 		var target=$Area2D.get_overlapping_bodies()[0]
+		
 		if target.is_in_group("creep"):
 			look_at(target.global_position)
 		if fire_rate_timer.time_left <= 0:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d0jd4qldk8yq1"]
+[gd_scene load_steps=19 format=3 uid="uid://d0jd4qldk8yq1"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_3thlw"]
 [ext_resource type="Texture2D" uid="uid://b3myts0snbjqj" path="res://icon.svg" id="1_qybrp"]
@@ -7,7 +7,10 @@
 [ext_resource type="Resource" uid="uid://cjqjokx25hqtb" path="res://resources/speed_tower.tres" id="3_u2pig"]
 [ext_resource type="PackedScene" uid="uid://dtf348ckiseav" path="res://tower_base.tscn" id="5_hqx1l"]
 [ext_resource type="PackedScene" uid="uid://bo30baru3bqpk" path="res://creep.tscn" id="7_r7ppu"]
-[ext_resource type="Script" path="res://CreepSpawner.gd" id="8_3fiav"]
+[ext_resource type="PackedScene" uid="uid://bfh71wnfmnc6e" path="res://creep_spawner.tscn" id="8_mkas2"]
+[ext_resource type="Script" path="res://TurretButtonContainer.gd" id="9_afkbt"]
+[ext_resource type="Resource" uid="uid://dl7i8ennjnley" path="res://resources/normal.tres" id="10_55nt8"]
+[ext_resource type="Resource" uid="uid://vxe22b7qj147" path="res://resources/speedy.tres" id="11_hv53g"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_4csje"]
 outlines = Array[PackedVector2Array]([PackedVector2Array(12, 0, 17, 352, 641, 360, 651, 8)])
@@ -74,9 +77,6 @@ size = Vector2(58, 58)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_svd5k"]
 size = Vector2(644, 98)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_aba5n"]
-size = Vector2(126, 127)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_elkoq"]
 bg_color = Color(0.0470588, 0.00392157, 0, 1)
@@ -146,34 +146,7 @@ debug_enabled = true
 debug_use_custom = true
 debug_path_custom_color = Color(0, 0, 1, 1)
 
-[node name="CreepSpawner" type="StaticBody2D" parent="."]
-position = Vector2(926, 401)
-input_pickable = true
-script = ExtResource("8_3fiav")
-
-[node name="Sprite2D" type="Sprite2D" parent="CreepSpawner"]
-modulate = Color(0, 1, 0, 1)
-texture = ExtResource("1_qybrp")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CreepSpawner"]
-position = Vector2(1, 0.5)
-shape = SubResource("RectangleShape2D_aba5n")
-
-[node name="SpawnTimer" type="Timer" parent="CreepSpawner"]
-one_shot = true
-
-[node name="PopupMenu" type="MenuButton" parent="CreepSpawner"]
-text = "Open Menu"
-item_count = 1
-popup/item_0/text = "Upgrade"
-popup/item_0/id = 0
-
-[node name="UpgradeButton" type="Button" parent="CreepSpawner/PopupMenu"]
-visible = false
-offset_right = 75.0
-offset_bottom = 40.0
-size_flags_horizontal = 4
-text = "Upgrade"
+[node name="CreepSpawner" parent="." instance=ExtResource("8_mkas2")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -182,6 +155,8 @@ offset_left = 26.0
 offset_top = 147.0
 offset_right = 150.0
 offset_bottom = 199.0
+script = ExtResource("9_afkbt")
+button_resources = Array[Resource("res://creep_resource.gd")]([ExtResource("10_55nt8"), ExtResource("11_hv53g")])
 
 [node name="TurretButton" type="Button" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
@@ -234,9 +209,4 @@ layout_mode = 2
 text = "0"
 
 [connection signal="projectile_shot" from="NavigationRegion2D/Tower" to="." method="_on_tower_projectile_shot"]
-[connection signal="creep_spawning" from="CreepSpawner" to="." method="_on_creep_spawner_creep_spawning"]
-[connection signal="input_event" from="CreepSpawner" to="CreepSpawner" method="_on_input_event"]
-[connection signal="timeout" from="CreepSpawner/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
-[connection signal="timeout" from="CreepSpawner/SpawnTimer" to="CreepSpawner" method="_on_spawn_timer_timeout"]
-[connection signal="pressed" from="CreepSpawner/PopupMenu/UpgradeButton" to="CreepSpawner" method="_on_upgrade_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/VBoxContainer/TurretButton" to="." method="_on_turret_button_pressed"]
